@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import Avvvatars from 'avvvatars-react'
 import { MoreHorizontal } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -36,7 +36,7 @@ const fetcher = async (...args: FetcherArgs) =>
   await fetch(...args).then(async res => await res.json())
 
 export default function TrainersList () {
-  const url: string = `http://localhost:8080/api/trainers`
+  const url: string = `${process.env.NEXT_PUBLIC_BASE_URL}/trainers`
 
   const {
     data: trainers,
@@ -66,7 +66,7 @@ export default function TrainersList () {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Image</TableHead>
+              <TableHead>Flag</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Last Name</TableHead>
               <TableHead>Medals</TableHead>
@@ -81,12 +81,9 @@ export default function TrainersList () {
             {trainers.map((trainer: any) => (
               <TableRow key={trainer._id}>
                 <TableCell className='hidden sm:table-cell'>
-                  <Image
-                    alt='Trainer image'
-                    className='aspect-square rounded-md object-cover'
-                    height='64'
-                    src='/placeholder.svg'
-                    width='64'
+                  <Avvvatars
+                    value={`${trainer.name} ${trainer.lastName} ${trainer.trainerId}`}
+                    style='shape'
                   />
                 </TableCell>
                 <TableCell className='font-medium'>{trainer.name}</TableCell>

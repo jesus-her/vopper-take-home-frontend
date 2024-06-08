@@ -21,7 +21,7 @@ export default function PokemonList ({
     search?: string
   }
 }) {
-  const url: string = `http://localhost:8080/api/pokemons?limit=${
+  const url: string = `${process.env.BASE_URL}/pokemons?limit=${
     searchParams.limit
   }&page=${searchParams.page}&search=${searchParams.search ?? ''}`
 

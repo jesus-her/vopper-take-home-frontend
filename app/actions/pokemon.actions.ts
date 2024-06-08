@@ -18,7 +18,7 @@ export async function fetchPokemons (
   params: FetchPokemonsParams
 ): Promise<FetchPokemonsResponse> {
   const { limit, page, search } = params
-  const url = new URL('http://localhost:8080/api/pokemons')
+  const url = new URL(`${process.env.BASE_URL}/pokemons`)
   url.searchParams.append('limit', limit.toString())
   url.searchParams.append('page', page.toString())
   if (search) {
@@ -34,12 +34,9 @@ export async function fetchPokemons (
 }
 
 export async function generatePokemonPDF (name: string): Promise<Blob> {
-  const response = await fetch(
-    `http://localhost:8080/api/pokemons/${name}/pdf`,
-    {
-      method: 'GET'
-    }
-  )
+  const response = await fetch(`${process.env.BASE_URL}/pokemons/${name}/pdf`, {
+    method: 'GET'
+  })
   if (!response.ok) {
     throw new Error('Error generating PDF')
   }
