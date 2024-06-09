@@ -1,7 +1,7 @@
 'use client'
 
 import Avvvatars from 'avvvatars-react'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, PlusCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,6 +28,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import useSWR from 'swr'
+import { useDialogStore } from '@/store/dialog-store'
 
 // Define a type for the fetcher function's arguments.
 type FetcherArgs = [input: RequestInfo, init?: RequestInit]
@@ -45,6 +46,7 @@ export default function TrainersList () {
   } = useSWR(url, fetcher, {
     keepPreviousData: true
   })
+  const { openDialog } = useDialogStore()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -56,11 +58,23 @@ export default function TrainersList () {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Trainers</CardTitle>
-        <CardDescription>
-          Manage your trainers and view their details.
-        </CardDescription>
+      <CardHeader className=' flex flex-row justify-between items-end'>
+        <div className=' flex flex-col gap-2'>
+          <CardTitle>Trainers</CardTitle>
+          <CardDescription>
+            Manage your trainers and view their details.
+          </CardDescription>
+        </div>
+        <Button
+          onClick={() => openDialog('create')}
+          size='sm'
+          className='h-8 gap-1'
+        >
+          <PlusCircle className='h-3.5 w-3.5' />
+          <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+            Add Trainer
+          </span>
+        </Button>
       </CardHeader>
       <CardContent>
         <Table>
@@ -109,7 +123,12 @@ export default function TrainersList () {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align='end'>
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => openDialog('edit', trainer)}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+
                       <DropdownMenuItem>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
