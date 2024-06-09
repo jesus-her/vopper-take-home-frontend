@@ -13,17 +13,16 @@ import {
 } from '@/components/ui/pagination'
 
 interface PaginationProps {
-  count: number
-  limit: number
+  totalPages: number
 }
 
-const PokemonListPagination: React.FC<PaginationProps> = ({ count, limit }) => {
+const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
 
   const currentPage = Number(params.get('page')) || 1
-  const totalPages = Math.ceil(count / limit)
+  totalPages
   const maxVisiblePages = 7
   const delta = 2
 

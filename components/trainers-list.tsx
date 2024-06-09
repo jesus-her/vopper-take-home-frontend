@@ -29,6 +29,9 @@ import {
 } from '@/components/ui/table'
 import useSWR from 'swr'
 import { useDialogStore } from '@/store/dialog-store'
+import { deleteTrainerAction } from '@/lib/actions/trainer.actions'
+import { revalidateLiveQueries } from '@/app/providers'
+import { ITrainer } from '@/interfaces/trainer'
 
 // Define a type for the fetcher function's arguments.
 type FetcherArgs = [input: RequestInfo, init?: RequestInit]
@@ -47,6 +50,22 @@ export default function TrainersList () {
     keepPreviousData: true
   })
   const { openDialog } = useDialogStore()
+
+  const handleDeleteTrainer = async (trainerId: string) => {
+    // Mostrar ventana de confirmación
+    const confirmDelete = confirm(
+      '¿Estás seguro de que quieres eliminar este entrenador?'
+    )
+    if (confirmDelete) {
+      try {
+        await deleteTrainerAction(trainerId)
+
+        await revalidateLiveQueries()
+      } catch (error) {
+        console.error('Error al eliminar el entrenador: ', error)
+      }
+    }
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -92,7 +111,7 @@ export default function TrainersList () {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {trainers.map((trainer: any) => (
+            {trainers.map((trainer: ITrainer) => (
               <TableRow key={trainer._id}>
                 <TableCell className='hidden sm:table-cell'>
                   <Avvvatars
@@ -129,7 +148,11 @@ export default function TrainersList () {
                         Edit
                       </DropdownMenuItem>
 
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDeleteTrainer(trainer.trainerId)}
+                      >
+                        Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

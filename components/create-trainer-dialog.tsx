@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { createTrainerAction } from '@/lib/actions/trainer.actions'
+import { Label } from './ui/label'
 
 export default function CreateTrainerDialog () {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,6 +38,7 @@ export default function CreateTrainerDialog () {
             }
           }}
         >
+          <Label htmlFor='Name'>Name</Label>
           <Input placeholder='Name' name='name' required />
           <Input placeholder='Last Name' name='lastName' required />
           <Input placeholder='Medals' type='number' name='medals' required />

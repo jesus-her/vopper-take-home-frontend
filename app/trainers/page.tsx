@@ -1,25 +1,13 @@
 'use server'
 
-import CreateTrainerDialog from '@/components/create-trainer-dialog'
 import TrainerDialog from '@/components/trainer-dialog'
 import TrainersList from '@/components/trainers-list'
 
-interface RootPageProps {
-  searchParams: {
-    limit: number
-    page: number
-    search?: string
-  }
-}
-export default async function Home ({ searchParams }: RootPageProps) {
+export default async function TrainersPage () {
   return (
-    <>
-      <main className='flex min-h-screen flex-col items-center justify-start gap-8 p-24'>
-        <h1>Trainers</h1>
-        <TrainersList />
-        {/* <CreateTrainerDialog /> */}
-        <TrainerDialog />
-      </main>
-    </>
+    <main className='flex min-h-screen flex-col items-center justify-start p-24'>
+      <TrainersList />
+      <TrainerDialog />
+    </main>
   )
 }

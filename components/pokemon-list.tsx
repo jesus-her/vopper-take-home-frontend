@@ -1,12 +1,10 @@
 'use client'
-import { type Key, useState } from 'react'
 
 import useSWR from 'swr'
 import PokemonListPagination from './pokemon-list-pagination'
-import { generatePokemonPDF } from '@/app/actions/pokemon.actions'
+import { handleGeneratePDF } from '@/app/actions/pokemon.actions'
 import { Button } from './ui/button'
 
-// Define a type for the fetcher function's arguments.
 type FetcherArgs = [input: RequestInfo, init?: RequestInit]
 
 const fetcher = async (...args: FetcherArgs) =>
@@ -21,9 +19,12 @@ export default function PokemonList ({
     search?: string
   }
 }) {
-  const url: string = `${process.env.BASE_URL}/pokemons?limit=${
-    searchParams.limit
-  }&page=${searchParams.page}&search=${searchParams.search ?? ''}`
+  // Set default values for limit, page and search
+  const limit = searchParams.limit ?? 10
+  const page = searchParams.page ?? 1
+  const search = searchParams.search ?? ''
+
+  const url: string = `${process.env.NEXT_PUBLIC_BASE_URL}/pokemons?limit=${limit}&page=${page}&search=${search}`
 
   const {
     data: pokemons,
@@ -32,43 +33,7 @@ export default function PokemonList ({
   } = useSWR(url, fetcher, {
     keepPreviousData: true
   })
-  const pages = pokemons?.count
-    ? Math.ceil(pokemons.count / searchParams.limit)
-    : 0
-
-  const handleGeneratePDF = async (name: string) => {
-    try {
-      const pdf = await generatePokemonPDF(name)
-      const url = URL.createObjectURL(pdf)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `${name}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error('Error generating PDF:', error)
-    }
-  }
-
-  // // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  // const pages = products?.count
-  //   ? Math.ceil(products.count / resultsPeerPage)
-  //   : 0
-
-  // if (products?.results?.length === 0 && categories.length === 0) {
-  //   return (
-  //     <EmptyState
-  //       title='Tienda sin productos'
-  //       subtitle='Este negocio aún no ha configurado sus productos y categorías. Vuelve pronto para ver su menú completo.'
-  //       storeId={store.id}
-  //       showResetButton={false}
-  //     />
-  //   )
-  // }
-
-  // if (products?.results?.length === 0) {
-  //   return <EmptyState storeId={store.id} />
-  // }
+  const pages = pokemons?.count ? Math.ceil(pokemons.count / limit) : 0
 
   return (
     <section className='flex flex-col gap-10'>
@@ -88,12 +53,7 @@ export default function PokemonList ({
       )}
 
       <section className='flex flex-col flex-1 w-full justify-center items-center  z-10'>
-        {pages > 0 && (
-          <PokemonListPagination
-            count={pokemons?.count}
-            limit={searchParams.limit}
-          />
-        )}
+        {pages > 0 && <PokemonListPagination totalPages={pages} />}
       </section>
     </section>
   )

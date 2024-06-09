@@ -9,6 +9,7 @@ import {
 } from '@/lib/actions/trainer.actions'
 import { useDialogStore } from '@/store/dialog-store'
 import { revalidateLiveQueries } from '@/app/providers'
+import { Label } from './ui/label'
 
 export default function TrainerDialog () {
   const { isOpen, mode, initialData, closeDialog } = useDialogStore()
@@ -48,18 +49,24 @@ export default function TrainerDialog () {
             handleSubmit(formData)
           }}
         >
+          <Label htmlFor='Name'>Name</Label>
+
           <Input
             placeholder='Name'
             defaultValue={initialData?.name}
             name='name'
             required
           />
+          <Label htmlFor='Last Name'>Last Name</Label>
+
           <Input
             placeholder='Last Name'
             defaultValue={initialData?.lastName}
             name='lastName'
             required
           />
+          <Label htmlFor='Medals'>Medals</Label>
+
           <Input
             placeholder='Medals'
             defaultValue={initialData?.medals}
@@ -67,6 +74,8 @@ export default function TrainerDialog () {
             name='medals'
             required
           />
+          <Label htmlFor='Phone'>Phone</Label>
+
           <Input
             placeholder='Phone'
             defaultValue={initialData?.phone}
