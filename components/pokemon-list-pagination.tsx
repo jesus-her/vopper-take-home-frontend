@@ -23,7 +23,7 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
 
   const currentPage = Number(params.get('page')) || 1
   totalPages
-  const maxVisiblePages = 7
+  const maxVisiblePages = 5
   const delta = 2
 
   const handlePageChange = (newPage: number) => {

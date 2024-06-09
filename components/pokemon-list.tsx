@@ -2,8 +2,8 @@
 
 import useSWR from 'swr'
 import PokemonListPagination from './pokemon-list-pagination'
-import { handleGeneratePDF } from '@/app/actions/pokemon.actions'
-import { Button } from './ui/button'
+
+import PokemonCard from './pokemon-card'
 
 type FetcherArgs = [input: RequestInfo, init?: RequestInit]
 
@@ -42,12 +42,7 @@ export default function PokemonList ({
       ) : (
         <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
           {pokemons?.results?.map((pokemon: any) => (
-            <div key={pokemon.url} className='border px-4 rounded-lg py-2'>
-              <h1>{pokemon.name}</h1>
-              <Button onClick={() => handleGeneratePDF(pokemon.name)}>
-                Generate PDF
-              </Button>
-            </div>
+            <PokemonCard pokemon={pokemon} />
           ))}
         </section>
       )}

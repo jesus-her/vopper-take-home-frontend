@@ -75,3 +75,15 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+  .filter-blur {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(3px) saturate(150%) !important;
+    pointer-events: none;
+    z-index: 0;
+    /* opacity: .5; */
+  }

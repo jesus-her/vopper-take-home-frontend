@@ -42,7 +42,7 @@ export default function Navbar () {
           </div>
         </SheetContent>
       </Sheet>
-      <Link href='#' className='mr-6 hidden lg:flex' prefetch={false}>
+      <Link href='/' className='mr-6 hidden lg:flex' prefetch={false}>
         <MountainIcon className='h-6 w-6' />
         <span className='sr-only'>Company Logo</span>
       </Link>
