@@ -1,8 +1,7 @@
 'use client'
 
-import Avvvatars from 'avvvatars-react'
-import { MoreHorizontal, PlusCircle } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+import { PlusCircle } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -12,26 +11,10 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
+
 import useSWR from 'swr'
 import { useDialogStore } from '@/store/dialog-store'
-import { deleteTrainerAction } from '@/lib/actions/trainer.actions'
-import { revalidateLiveQueries } from '@/app/providers'
-import { ITrainer } from '@/interfaces/trainer'
+
 import TrainersTable from './trainers-table'
 
 // Define a type for the fetcher function's arguments.
@@ -61,9 +44,9 @@ export default function TrainersList () {
   }
 
   return (
-    <Card className='min-w-full overflow-x-auto'>
-      <CardHeader className=' flex  justify-between items-start flex-col gap-2'>
-        <div className=' flex flex-row w-full justify-between items-center gap-2'>
+    <Card className='min-w-full max-w-full overflow-x-auto'>
+      <CardHeader className='flex justify-between items-start flex-col gap-2'>
+        <div className='flex flex-row w-full justify-between items-center gap-2'>
           <CardTitle>Trainers</CardTitle>
           <Button
             onClick={() => openDialog('create')}
@@ -78,7 +61,7 @@ export default function TrainersList () {
           Manage your trainers and view their details.
         </CardDescription>
       </CardHeader>
-      <CardContent className=' overflow-x-auto'>
+      <CardContent>
         <TrainersTable trainers={trainers} />
       </CardContent>
       <CardFooter>

@@ -98,7 +98,7 @@ const TrainersTable: React.FC<TrainersTableProps> = ({ trainers }) => {
           <TableBody>
             {trainers.map((trainer: ITrainer) => (
               <TableRow key={trainer._id}>
-                <TableCell className='hidden sm:table-cell'>
+                <TableCell>
                   <Avvvatars
                     value={`${trainer.name} ${trainer.lastName} ${trainer.trainerId}`}
                     style='shape'

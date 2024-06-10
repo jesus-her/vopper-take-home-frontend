@@ -1,8 +1,4 @@
-'use server'
-
-import LimitSelector from '@/components/limit-selector'
 import PokemonList from '../components/pokemon-list'
-import SearchBar from '../components/search-bar'
 import PokedexHeader from '@/components/pokedex-header'
 
 interface RootPageProps {
