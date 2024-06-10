@@ -34,9 +34,13 @@ export default function TrainerDialog () {
       }
     }
   }
+  const handleCloseDialog = () => {
+    closeDialog()
+    setError(null)
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={closeDialog}>
+    <Dialog open={isOpen} onOpenChange={handleCloseDialog}>
       <DialogContent>
         <DialogTitle>
           {mode === 'create' ? 'Create New Trainer' : 'Edit Trainer'}
