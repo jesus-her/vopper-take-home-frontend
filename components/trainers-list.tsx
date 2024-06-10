@@ -1,6 +1,6 @@
 'use client'
 
-import { PlusCircle } from 'lucide-react'
+import { File, PlusCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +16,8 @@ import useSWR from 'swr'
 import { useDialogStore } from '@/store/dialog-store'
 
 import TrainersTable from './trainers-table'
+import { CSVLink } from 'react-csv'
+import type { ITrainer } from '@/interfaces/trainer'
 
 // Define a type for the fetcher function's arguments.
 type FetcherArgs = [input: RequestInfo, init?: RequestInit]
@@ -43,19 +45,54 @@ export default function TrainersList () {
     return <div>Error loading trainers.</div>
   }
 
+  const csvHeaders = [
+    { label: 'Name', key: 'name' },
+    { label: 'Last Name', key: 'lastName' },
+    { label: 'Medals', key: 'medals' },
+    { label: 'Phone', key: 'phone' },
+    { label: 'Trainer ID', key: 'trainerId' },
+    { label: 'Created at', key: 'createdAt' },
+    { label: 'Updated at', key: 'updatedAt' }
+  ]
+
+  const csvData = trainers.map((trainer: ITrainer) => ({
+    name: trainer.name,
+    lastName: trainer.lastName,
+    medals: trainer.medals,
+    phone: trainer.phone,
+    trainerId: trainer.trainerId,
+    createdAt: new Date(trainer.createdAt).toLocaleString(),
+    updatedAt: new Date(trainer.updatedAt).toLocaleString()
+  }))
+
   return (
     <Card className='min-w-full max-w-full overflow-x-auto'>
       <CardHeader className='flex justify-between items-start flex-col gap-2'>
         <div className='flex flex-row w-full justify-between items-center gap-2'>
           <CardTitle>Trainers</CardTitle>
-          <Button
-            onClick={() => openDialog('create')}
-            size='sm'
-            className='h-8 w-fit flex gap-2'
-          >
-            <PlusCircle className='h-3.5 w-3.5' />
-            <span>Add Trainer</span>
-          </Button>
+          <div className='flex gap-2 flex-row'>
+            <Button
+              onClick={() => openDialog('create')}
+              size='sm'
+              className='h-8 w-fit flex gap-2'
+            >
+              <PlusCircle className='h-3.5 w-3.5' />
+              <span>Add Trainer</span>
+            </Button>
+            <CSVLink
+              data={csvData}
+              headers={csvHeaders}
+              filename='trainers.csv'
+              className='btn btn-primary'
+            >
+              <Button size='sm' variant='outline' className='h-8 gap-1'>
+                <File className='h-3.5 w-3.5' />
+                <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>
+                  Export
+                </span>
+              </Button>
+            </CSVLink>
+          </div>
         </div>
         <CardDescription>
           Manage your trainers and view their details.
