@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import qs from 'query-string'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -22,8 +21,7 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
   const params = useSearchParams()
 
   const currentPage = Number(params.get('page')) || 1
-  const maxVisiblePages = 6
-  const delta = Math.floor((maxVisiblePages - 1) / 2)
+  const maxVisiblePages = 3 // Número fijo de elementos visibles en la paginación
 
   const handlePageChange = (newPage: number) => {
     const url = qs.stringifyUrl(
@@ -41,87 +39,72 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
 
   const renderPageNumbers = () => {
     const pages = []
+    const delta = Math.floor(maxVisiblePages / 2)
+    let startPage = Math.max(1, currentPage - delta)
+    let endPage = Math.min(totalPages, currentPage + delta)
 
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(
-          <PaginationItem key={i}>
-            <PaginationLink
-              isActive={currentPage === i}
-              onClick={() => handlePageChange(i)}
-            >
-              {i}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
-    } else {
-      let startPage = Math.max(1, currentPage - delta)
-      let endPage = Math.min(totalPages, currentPage + delta)
+    if (currentPage <= delta) {
+      endPage = maxVisiblePages
+    }
 
-      if (currentPage <= delta + 1) {
-        endPage = maxVisiblePages - 2
-      }
+    if (currentPage + delta >= totalPages) {
+      startPage = totalPages - maxVisiblePages + 1
+    }
 
-      if (currentPage >= totalPages - delta) {
-        startPage = totalPages - (maxVisiblePages - 3)
-      }
+    if (startPage < 1) {
+      startPage = 1
+    }
 
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(
-          <PaginationItem key={i}>
-            <PaginationLink
-              isActive={currentPage === i}
-              onClick={() => handlePageChange(i)}
-            >
-              {i}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
+    if (endPage > totalPages) {
+      endPage = totalPages
+    }
 
-      if (startPage > 2) {
-        pages.unshift(
-          <PaginationItem key='start-ellipsis'>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )
-      }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            isActive={currentPage === i}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      )
+    }
 
-      if (startPage > 1) {
-        pages.unshift(
-          <PaginationItem key={1}>
-            <PaginationLink onClick={() => handlePageChange(1)}>
-              1
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
+    if (startPage > 1) {
+      pages.unshift(
+        <PaginationItem key='start-ellipsis'>
+          <PaginationEllipsis />
+        </PaginationItem>
+      )
+      pages.unshift(
+        <PaginationItem key={1}>
+          <PaginationLink onClick={() => handlePageChange(1)}>1</PaginationLink>
+        </PaginationItem>
+      )
+    }
 
-      if (endPage < totalPages - 1) {
-        pages.push(
-          <PaginationItem key='end-ellipsis'>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )
-      }
-
-      if (endPage < totalPages) {
-        pages.push(
-          <PaginationItem key={totalPages}>
-            <PaginationLink onClick={() => handlePageChange(totalPages)}>
-              {totalPages}
-            </PaginationLink>
-          </PaginationItem>
-        )
-      }
+    if (endPage < totalPages) {
+      pages.push(
+        <PaginationItem key='end-ellipsis'>
+          <PaginationEllipsis />
+        </PaginationItem>
+      )
+      pages.push(
+        <PaginationItem key={totalPages}>
+          <PaginationLink onClick={() => handlePageChange(totalPages)}>
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      )
     }
 
     return pages
   }
 
   return (
-    <Pagination className='w-full max-w-md mx-auto'>
+    <Pagination className='min-w-full max-w-full md:max-w-md mx-auto mt-4'>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

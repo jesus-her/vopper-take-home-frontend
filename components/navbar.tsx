@@ -1,5 +1,10 @@
 'use client'
-import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetClose
+} from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import {
@@ -21,29 +26,37 @@ export default function Navbar () {
             <span className='sr-only'>Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
+
         <SheetContent side='left'>
-          <Link href='/' prefetch={false}>
-            <MountainIcon className='h-6 w-6' />
-            <span className='sr-only'>Company Logo</span>
-          </Link>
+          <SheetClose asChild>
+            <Link href='/' prefetch={false}>
+              <MountainIcon className='h-6 w-6' />
+              <span className='sr-only'>Company Logo</span>
+            </Link>
+          </SheetClose>
           <div className='grid gap-2 py-6'>
-            <Link
-              href='/'
-              className='flex w-full items-center py-2 text-lg font-semibold'
-              prefetch={false}
-            >
-              Home
-            </Link>
-            <Link
-              href='/trainers'
-              className='flex w-full items-center py-2 text-lg font-semibold'
-              prefetch={false}
-            >
-              Trainers
-            </Link>
+            <SheetClose asChild>
+              <Link
+                href='/'
+                className='flex w-full items-center py-2 text-lg font-semibold'
+                prefetch={false}
+              >
+                Home
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link
+                href='/trainers'
+                className='flex w-full items-center py-2 text-lg font-semibold'
+                prefetch={false}
+              >
+                Trainers
+              </Link>
+            </SheetClose>
           </div>
         </SheetContent>
       </Sheet>
+
       <Link href='/' className='mr-6 hidden lg:flex' prefetch={false}>
         <MountainIcon className='h-6 w-6' />
         <span className='sr-only'>Company Logo</span>
