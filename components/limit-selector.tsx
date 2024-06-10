@@ -2,6 +2,7 @@
 import React from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
+import { Label } from './ui/label'
 
 const LimitSelector: React.FC = () => {
   const router = useRouter()
@@ -27,10 +28,13 @@ const LimitSelector: React.FC = () => {
   }
 
   return (
-    <div>
-      <label htmlFor='limit-selector' className='mr-2'>
+    <div className='flex flex-col'>
+      <Label
+        className=' hidden md:block capitalize font-medium'
+        htmlFor='limit-selector'
+      >
         Results per page:
-      </label>
+      </Label>
       <select
         id='limit-selector'
         value={limit}

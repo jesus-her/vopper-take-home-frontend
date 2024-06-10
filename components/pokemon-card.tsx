@@ -4,7 +4,7 @@ import { JSX, SVGProps } from 'react'
 import { handleGeneratePDF } from '@/app/actions/pokemon.actions'
 import Image from 'next/image'
 import pokeball from '@/public/pokeball-min.png'
-// import Avvvatars from 'avvvatars-react'
+import Avvvatars from 'avvvatars-react'
 
 export default function PokemonCard ({
   pokemon
@@ -17,13 +17,13 @@ export default function PokemonCard ({
         <div className='relative border w-full h-32 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden'>
           <Image src={pokeball} alt='Pokeball' className='w-28 h-28 z-10' />
           {/* Filter */}
-          {/* <div className='filter-blur'>
+          <div className='filter-blur'>
             <Avvvatars
               value={`${pokemon.url}${pokemon.name}`}
               style='shape'
-              size={100}
+              size={70}
             />
-          </div> */}
+          </div>
         </div>
         <h3 className='text-xl md:text-2xl text-center font-bold capitalize'>
           {pokemon.name}

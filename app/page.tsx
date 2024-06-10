@@ -3,6 +3,7 @@
 import LimitSelector from '@/components/limit-selector'
 import PokemonList from '../components/pokemon-list'
 import SearchBar from '../components/search-bar'
+import PokedexHeader from '@/components/pokedex-header'
 
 interface RootPageProps {
   searchParams: {
@@ -13,12 +14,8 @@ interface RootPageProps {
 }
 export default async function Home ({ searchParams }: RootPageProps) {
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
-      <h1>Pokedex</h1>
-      <div className='flex items-center gap-3'>
-        <SearchBar />
-        <LimitSelector />
-      </div>
+    <main className='flex min-h-screen flex-col items-center gap-4 py-28 px-4 max-w-7xl mx-auto'>
+      <PokedexHeader />
       <PokemonList searchParams={searchParams} />
     </main>
   )

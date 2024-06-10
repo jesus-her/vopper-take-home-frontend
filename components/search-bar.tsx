@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { Label } from './ui/label'
 
 const SearchBar: React.FC = () => {
   const router = useRouter()
@@ -43,11 +44,17 @@ const SearchBar: React.FC = () => {
     <div>
       <form
         onSubmit={handleSearch}
-        className='ml-auto flex-1 sm:flex-initial flex gap-2'
+        className='ml-auto flex-1 sm:flex-initial flex gap-2 items-end'
       >
         <div className='relative'>
-          <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
+          <Search className='absolute left-2.5 bottom-2.5 h-4 w-4 text-muted-foreground' />
 
+          <Label
+            className=' hidden md:block capitalize font-medium'
+            htmlFor='Search'
+          >
+            Search
+          </Label>
           <Input
             type='text'
             value={input}

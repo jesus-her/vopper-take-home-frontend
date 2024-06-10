@@ -35,17 +35,20 @@ export default function PokemonList ({
   })
   const pages = pokemons?.count ? Math.ceil(pokemons.count / limit) : 0
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>Error loading pokemons list.</div>
+  }
   return (
-    <section className='flex flex-col gap-10'>
-      {isLoading ? (
-        <h1>loading...</h1>
-      ) : (
-        <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-          {pokemons?.results?.map((pokemon: any) => (
-            <PokemonCard pokemon={pokemon} />
-          ))}
-        </section>
-      )}
+    <section className='flex flex-col gap-10 w-full'>
+      <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
+        {pokemons?.results?.map((pokemon: any) => (
+          <PokemonCard pokemon={pokemon} />
+        ))}
+      </section>
 
       <section className='flex flex-col flex-1 w-full justify-center items-center  z-10'>
         {pages > 0 && <PokemonListPagination totalPages={pages} />}

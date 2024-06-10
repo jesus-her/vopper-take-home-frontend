@@ -43,50 +43,51 @@ export default function TrainerDialog () {
         </DialogTitle>
         <form
           ref={ref}
+          className=' flex flex-col gap-3 w-full'
           onSubmit={e => {
             e.preventDefault()
             const formData = new FormData(ref.current!)
             handleSubmit(formData)
           }}
         >
-          <Label htmlFor='Name'>Name</Label>
-
           <Input
+            label='Name'
             placeholder='Name'
             defaultValue={initialData?.name}
             name='name'
             required
           />
-          <Label htmlFor='Last Name'>Last Name</Label>
 
           <Input
+            label='Last Name'
             placeholder='Last Name'
             defaultValue={initialData?.lastName}
             name='lastName'
             required
           />
-          <Label htmlFor='Medals'>Medals</Label>
 
           <Input
+            label='Medals'
             placeholder='Medals'
             defaultValue={initialData?.medals}
             type='number'
             name='medals'
             required
           />
-          <Label htmlFor='Phone'>Phone</Label>
 
           <Input
+            label='Phone (10 digits)'
             placeholder='Phone'
             defaultValue={initialData?.phone}
             name='phone'
             required
+            type='number'
           />
 
           {error && <p className='text-red-500'>{error}</p>}
 
-          <Button type='submit'>
-            {mode === 'create' ? 'Create' : 'Update'}
+          <Button className=' mt-3' type='submit'>
+            {mode === 'create' ? 'Create' : 'Update'} Trainer
           </Button>
         </form>
       </DialogContent>

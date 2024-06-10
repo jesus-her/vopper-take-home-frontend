@@ -22,9 +22,8 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
   const params = useSearchParams()
 
   const currentPage = Number(params.get('page')) || 1
-  totalPages
-  const maxVisiblePages = 5
-  const delta = 2
+  const maxVisiblePages = 6
+  const delta = Math.floor((maxVisiblePages - 1) / 2)
 
   const handlePageChange = (newPage: number) => {
     const url = qs.stringifyUrl(
@@ -84,11 +83,7 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
       if (startPage > 2) {
         pages.unshift(
           <PaginationItem key='start-ellipsis'>
-            <PaginationEllipsis
-              onClick={() =>
-                handlePageChange(Math.max(1, currentPage - maxVisiblePages + 2))
-              }
-            />
+            <PaginationEllipsis />
           </PaginationItem>
         )
       }
@@ -106,13 +101,7 @@ const PokemonListPagination: React.FC<PaginationProps> = ({ totalPages }) => {
       if (endPage < totalPages - 1) {
         pages.push(
           <PaginationItem key='end-ellipsis'>
-            <PaginationEllipsis
-              onClick={() =>
-                handlePageChange(
-                  Math.min(totalPages, currentPage + maxVisiblePages - 2)
-                )
-              }
-            />
+            <PaginationEllipsis />
           </PaginationItem>
         )
       }
