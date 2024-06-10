@@ -21,17 +21,15 @@ import { Badge } from './ui/badge'
 import { MoreHorizontal } from 'lucide-react'
 import { deleteTrainerAction } from '@/lib/actions/trainer.actions'
 import { revalidateLiveQueries } from '@/app/providers'
+import { useDialogStore } from '@/store/dialog-store'
 
 interface TrainersTableProps {
   trainers: ITrainer[]
-  onAddTrainer: () => void
 }
 
-const TrainersTable: React.FC<TrainersTableProps> = ({
-  trainers,
-  onAddTrainer
-}) => {
+const TrainersTable: React.FC<TrainersTableProps> = ({ trainers }) => {
   const isEmpty = trainers.length === 0
+  const { openDialog } = useDialogStore()
 
   const handleDeleteTrainer = async (trainerId: string) => {
     // Mostrar ventana de confirmación
@@ -74,7 +72,10 @@ const TrainersTable: React.FC<TrainersTableProps> = ({
             You have not added any trainers. Add one below.
           </p>
           <div className='mt-6'>
-            <Button onClick={onAddTrainer} className='btn btn-primary'>
+            <Button
+              onClick={() => openDialog('create')}
+              className='btn btn-primary'
+            >
               Add Trainer
             </Button>
           </div>
@@ -126,7 +127,9 @@ const TrainersTable: React.FC<TrainersTableProps> = ({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align='end'>
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={onAddTrainer}>
+                      <DropdownMenuItem
+                        onClick={() => openDialog('edit', trainer)}
+                      >
                         Edit
                       </DropdownMenuItem>
 

@@ -79,10 +79,7 @@ export default function TrainersList () {
         </CardDescription>
       </CardHeader>
       <CardContent className=' overflow-x-auto'>
-        <TrainersTable
-          trainers={trainers}
-          onAddTrainer={() => openDialog('create')}
-        />
+        <TrainersTable trainers={trainers} />
       </CardContent>
       <CardFooter>
         <div className='text-xs text-muted-foreground'>
